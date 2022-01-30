@@ -100,13 +100,38 @@ namespace BinaryTreeEval
             }
         }
 
+        public static int evalTree(Node root)
+        {
+            if (root == null)
+                return 0;
+            if (root.left == null && root.right == null)
+                return Convert.ToInt32(root.data);
+
+            int leftEval = evalTree(root.left);
+
+            int rightEval = evalTree(root.right);
+
+            if (root.data.Equals("+"))
+                return leftEval + rightEval;
+
+            if (root.data.Equals("-"))
+                return leftEval - rightEval;
+
+            if (root.data.Equals("*"))
+                return leftEval * rightEval;
+
+            return leftEval / rightEval;
+        }
+
         static void Main(string[] args)
         {
-            string s = "(15+(6+8))";
+            string s = "((15/(7-(1+1)))*3)-(2+(1+1))";
             s = "(" + s;
             s += ")";
             Node root = buildTree(s);
             printOrder(root);
+            Console.WriteLine('\n');
+            Console.WriteLine(evalTree(root));
             Console.ReadLine();
         }
     }
